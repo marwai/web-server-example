@@ -47,12 +47,12 @@ data "aws_ami" "ec2" {
 ##                             IAM                                ##                      
 ####################################################################
 resource "aws_iam_instance_profile" "instance_profile" {
-  name = "${var.environment}-${var.service}"
+  name = "${var.environment}-${var.region}-${var.service}"
   role = aws_iam_role.iam_role.name
 }
 # IAM Role
 resource "aws_iam_role" "iam_role" {
-  name               = "${var.environment}-${var.service}"
+  name               = "${var.environment}-${var.region}-${var.service}"
   assume_role_policy = data.aws_iam_policy_document.ec2_role_trust.json
 }
 ####################################################################
@@ -326,6 +326,11 @@ variable "external_lb_zone_id" {
 variable "external_lb_security_group_id" {
   type        = string
   description = "Security group of external load balancer"
+}
+
+variable "region" {
+  type = string 
+  description = "Region - eu-west-1, eu-west-2, eu-west-3 etc."
 }
 
 ####################################################################
